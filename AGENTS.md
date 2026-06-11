@@ -46,7 +46,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 
 ## Current Status
 
-已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件；本地 `.venv` 已按项目推荐版本重建为 Python 3.10，且 `mediapipe`、`torch`、`cv2` 均已完成导入验证。
+已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件；本地 `.venv` 已按项目推荐版本重建为 Python 3.10，且 `mediapipe`、`torch`、`cv2` 均已完成导入验证。代码已推送到 public GitHub 仓库 `https://github.com/zh23jemu/handpose_x`。
 
 ## Recent Changes
 
@@ -56,6 +56,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-11：运行 Wing Loss 分析并生成 `analysis_outputs/loss/` 下的曲线图、梯度图、CSV 和摘要。
 - 2026-06-11：根据用户实际环境和 `mediapipe==0.10.11` 兼容性，将项目推荐 Python 版本从 3.8 调整为 3.10，并新增 `.python-version` 固定版本提示。
 - 2026-06-11：将旧 Python 3.14 `.venv` 非破坏性移动到 `.venv_backup_py314`，使用 Python 3.10.0 重建 `.venv`，安装 `requirements-gesture.txt`，并验证 `mediapipe`、`torch`、`cv2` 可导入。
+- 2026-06-11：创建 GitHub public 仓库 `zh23jemu/handpose_x` 并推送代码；本地生成 `data_release/Weight.zip` 与 `data_release/handpose_datasets.zip`，准备用 GitHub Release 同步服务器运行资产。
 
 ## Next TODO
 
@@ -64,6 +65,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 可考虑将 `train.py` 内嵌参数迁移至配置文件
 - 统一文档中的运行命令为项目本地 `.venv` 调用方式，避免误用系统 Python。
 - 在服务器准备真实数据集、权重和动态手势视频后，通过 Slurm 运行完整分析套件，产出 PCK@0.2、整体识别准确率和 50 次重复测量延迟。
+- 服务器拉取代码后，从 GitHub Release 下载 `Weight.zip` 和 `handpose_datasets.zip`，解压到项目根目录再执行分析/训练任务。
 
 ## Open Issues
 
@@ -80,3 +82,4 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 静态手势用角度约束规则（无需额外模型），动态手势用 Transformer 时序模型（需训练数据）
 - `auto` 后端策略优先 MediaPipe，保持零权重文件启动的开发体验
 - 分析能力独立放在根目录脚本与 `analysis_tools/` 辅助包中，不侵入现有训练、推理和实时演示主链路。
+- 代码通过 GitHub 仓库同步，数据集和权重通过 GitHub Release 资产同步，避免大文件进入 Git 历史。

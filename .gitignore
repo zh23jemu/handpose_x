@@ -144,6 +144,9 @@ gesture_checkpoints/
 analysis_outputs/slurm/*.out
 analysis_outputs/slurm/*.err
 
+# GitHub Release 数据包本地缓存，不进入 Git 历史
+data_release/
+
 # 数据集（体积过大，不入库）
 handpose_datasets/
 handpose_x_pre_text/
