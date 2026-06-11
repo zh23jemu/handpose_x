@@ -1,0 +1,42 @@
+backend:
+  name: auto
+  device: auto
+  model_path: D:\handpose_x-main\handpose_x-main\Weight\resnet_101-size-256-best_model2.pth
+  img_size: 256
+  min_hand_area: 2600
+  max_hands: 1
+  redetect_interval: 10
+  track_bbox_scale: 1.45
+  track_min_side: 120
+  track_miss_limit: 6
+  min_landmark_span_ratio: 0.24
+  max_bbox_area_ratio: 0.42
+  max_bbox_width_ratio: 0.78
+  max_bbox_height_ratio: 0.90
+  mediapipe_model_complexity: 1
+  mediapipe_min_detection_confidence: 0.60
+  mediapipe_min_tracking_confidence: 0.55
+tracker:
+  track_ttl: 2.5
+  min_match_distance: 70.0
+  match_distance_ratio: 3.2
+  min_match_iou: 0.05
+  landmark_smoothing: 0.35
+  bbox_padding_ratio: 0.18
+recognizer:
+  event_cooldown: 0.90
+  min_gesture_confidence: 0.72
+  min_event_confidence: 0.68
+  swipe_time_window: 0.75
+  zoom_time_window: 0.85
+  rotation_time_window: 0.70
+  temporal_model_path: ""
+  temporal_window_size: 32
+  temporal_stride: 2
+  temporal_confidence: 0.82
+display:
+  font_path: ""
+  mirror: true
+  display: true
+  print_events: true
+  event_log: ""

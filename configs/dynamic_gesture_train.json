@@ -1,0 +1,17 @@
+{
+  "train_manifest": "datasets/dynamic_gesture/train.jsonl",
+  "val_manifest": "datasets/dynamic_gesture/val.jsonl",
+  "output_dir": "gesture_checkpoints",
+  "window_size": 32,
+  "batch_size": 16,
+  "epochs": 40,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.0001,
+  "hidden_dim": 192,
+  "num_layers": 3,
+  "num_heads": 4,
+  "dropout": 0.15,
+  "device": "auto",
+  "num_workers": 0,
+  "seed": 42
+}
