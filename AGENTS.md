@@ -46,23 +46,26 @@ train_dynamic_gesture.py  # 时序手势模型训练
 
 ## Current Status
 
-初次分析项目结构，创建了 `CLAUDE.md` 和 `AGENTS.md`，完成项目上下文建立。
+已完成项目文档与当前结构复核：项目包含原始 21 关键点检测训练/推理流程，以及新增的 `gesture_runtime` 四层手势识别运行时；当前文档、配置和核心代码结构总体一致。
 
 ## Recent Changes
 
 - 2026-06-11：初始化 `AGENTS.md` 和 `CLAUDE.md`，完整梳理四层管道架构和配置体系
+- 2026-06-11：复核 `README.md`、`PROJECT_STATUS.md`、`CLAUDE.md`、`docs/gesture_pipeline.md`、运行时/训练配置和依赖清单，确认当前主要风险仍集中在依赖版本、硬编码路径、缺少动态手势数据集和训练评估脚本。
 
 ## Next TODO
 
 - 根据实际开发需求扩展手势类别或优化识别逻辑
 - 考虑为时序模型补充评估脚本
 - 可考虑将 `train.py` 内嵌参数迁移至配置文件
+- 统一文档中的运行命令为项目本地 `.venv` 调用方式，避免误用系统 Python。
 
 ## Open Issues
 
 - `train.py` 的训练参数（模型类型、数据集路径）硬编码在脚本顶部，不如 `video_demo.py` 的命令行参数风格一致
 - `mediapipe==0.10.11` 锁定 Python 3.8，限制了依赖升级空间
 - Legacy 后端权重路径在 `configs/gesture_runtime.yaml` 中默认为绝对路径，跨机器需手动修改
+- `PROJECT_STATUS.md` 和 `docs/gesture_pipeline.md` 中仍有部分示例命令使用 `python ...`，与当前必须使用项目 `.venv` 的执行规范不完全一致。
 
 ## Architecture Decisions
 
