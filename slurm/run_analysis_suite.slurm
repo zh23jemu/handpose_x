@@ -59,6 +59,7 @@ if [ ! -x ".venv/bin/python" ]; then
 fi
 
 .venv/bin/python -m pip install -U pip
+.venv/bin/pip install -r requirements-torch-cu126.txt
 .venv/bin/pip install -r requirements-gesture.txt
 
 .venv/bin/python analysis_loss.py \

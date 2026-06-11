@@ -80,6 +80,22 @@
 sbatch --export=ALL,DATASET_DIR=/path/to/handpose_datasets/,MODEL_PATH=/path/to/best.pth,SOURCE=/path/to/gesture.mp4 slurm/run_analysis_suite.slurm
 ```
 
+服务器 GPU 环境的 NVIDIA 驱动是 CUDA 12.x 兼容级别时，不要安装 CUDA 13.0 的 PyTorch wheel。
+本项目提供 `requirements-torch-cu126.txt`，Slurm 脚本会先安装 `cu126` 版 `torch/torchvision`，再安装通用依赖。
+如果已经误装了 `torch 2.12.0+cu130`，先在服务器 `.venv` 中执行：
+
+```bash
+.venv/bin/pip uninstall -y torch torchvision
+.venv/bin/pip install -r requirements-torch-cu126.txt
+.venv/bin/pip install -r requirements-gesture.txt
+```
+
+验证：
+
+```bash
+.venv/bin/python -c "import torch; print(torch.__version__); print(torch.cuda.is_available())"
+```
+
 GPU 任务默认使用 `gpu` 分区、`gpo-ifv7xx` 账号和 `normal` QOS。预计 1 小时内完成的短评测可覆盖：
 
 ```bash
