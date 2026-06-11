@@ -35,8 +35,8 @@ python video_demo.py --source 0 --display --backend auto
 If `mediapipe` is installed, `auto` chooses it first.
 If not installed, it falls back to the legacy backend.
 
-For Python 3.8, pin `mediapipe==0.10.11`.
-Newer `mediapipe` builds may install but fail to import on 3.8.
+The recommended project runtime is Python 3.10 with `mediapipe==0.10.11`.
+If upgrading Python or MediaPipe, re-check import and realtime camera behavior before using the runtime.
 
 ## Supported event output
 

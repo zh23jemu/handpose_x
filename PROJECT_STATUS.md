@@ -19,7 +19,7 @@
 
 | 组件 | 版本/说明 |
 |------|---------|
-| Python | 3.8（mediapipe 版本约束，不可随意升级） |
+| Python | 3.10（项目推荐版本；mediapipe==0.10.11 支持 Python 3.10） |
 | PyTorch | ≥1.5.1 |
 | MediaPipe | ==0.10.11（锁定版本） |
 | OpenCV | opencv-python |
@@ -214,7 +214,7 @@ python model2onnx.py
 
 ## 十一、注意事项
 
-1. **Python 版本**：mediapipe==0.10.11 要求 Python 3.8，升级 Python 版本前需确认 mediapipe 兼容性
+1. **Python 版本**：当前项目推荐 Python 3.10，`mediapipe==0.10.11` 已锁定；升级 Python 或 MediaPipe 前需确认兼容性
 2. **权重文件**：`Weight/` 目录未入 git（单文件 512MB），换机器需单独传输
 3. **数据集**：`handpose_datasets/` 未入 git（1.2GB），百度网盘链接见 README.md
 4. **Legacy 后端路径**：`gesture_runtime.yaml` 中 `model_path` 默认为绝对路径，跨机器需修改

@@ -8,7 +8,7 @@
 
 ## 技术栈
 
-- Python 3.8（mediapipe==0.10.11 版本约束）
+- Python 3.10（项目推荐版本；mediapipe==0.10.11 支持 Python 3.10）
 - PyTorch + torchvision（关键点检测 + 时序 Transformer）
 - MediaPipe（推荐手部检测后端）
 - OpenCV（图像处理 + 视频捕获）
@@ -54,6 +54,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-11：复核 `README.md`、`PROJECT_STATUS.md`、`CLAUDE.md`、`docs/gesture_pipeline.md`、运行时/训练配置和依赖清单，确认当前主要风险仍集中在依赖版本、硬编码路径、缺少动态手势数据集和训练评估脚本。
 - 2026-06-11：新增 `analysis_loss.py`、`analysis_dataset_quality.py`、`evaluate_keypoint_accuracy.py`、`benchmark_runtime.py` 和 `slurm/run_analysis_suite.slurm`，覆盖用户要求的损失函数、数据质量、预测精度和推理性能分析。
 - 2026-06-11：运行 Wing Loss 分析并生成 `analysis_outputs/loss/` 下的曲线图、梯度图、CSV 和摘要。
+- 2026-06-11：根据用户实际环境和 `mediapipe==0.10.11` 兼容性，将项目推荐 Python 版本从 3.8 调整为 3.10，并新增 `.python-version` 固定版本提示。
 
 ## Next TODO
 
@@ -66,11 +67,11 @@ train_dynamic_gesture.py  # 时序手势模型训练
 ## Open Issues
 
 - `train.py` 的训练参数（模型类型、数据集路径）硬编码在脚本顶部，不如 `video_demo.py` 的命令行参数风格一致
-- `mediapipe==0.10.11` 锁定 Python 3.8，限制了依赖升级空间
+- `mediapipe==0.10.11` 已锁定版本，当前推荐 Python 3.10；升级 Python 或 MediaPipe 前需重新验证兼容性
 - Legacy 后端权重路径在 `configs/gesture_runtime.yaml` 中默认为绝对路径，跨机器需手动修改
 - `PROJECT_STATUS.md` 和 `docs/gesture_pipeline.md` 中仍有部分示例命令使用 `python ...`，与当前必须使用项目 `.venv` 的执行规范不完全一致。
 - 本地仓库未包含大体积真实数据集和权重文件，因此关键点精度、PCK@0.2、后端对比和指令响应延迟需要在服务器或具备数据/权重的环境中实测。
-- 当前本地 `.venv` 为 Python 3.14.3，不满足 `mediapipe==0.10.11` 和项目推荐 Python 3.8 约束；完整运行时/评估应在 Python 3.8 的项目虚拟环境或服务器环境中执行。
+- 当前本地 `.venv` 为 Python 3.14.3，不满足项目推荐 Python 3.10 环境；完整运行时/评估应在 Python 3.10 的项目虚拟环境或服务器环境中执行。
 
 ## Architecture Decisions
 
