@@ -46,7 +46,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 
 ## Current Status
 
-已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件：可生成 Wing Loss 曲线、数据集质量图表、关键点 NME/PCK 指标、后端/模型推理性能指标，以及服务器 Slurm 分析任务脚本。
+已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件；本地 `.venv` 已按项目推荐版本重建为 Python 3.10，且 `mediapipe`、`torch`、`cv2` 均已完成导入验证。
 
 ## Recent Changes
 
@@ -55,6 +55,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-11：新增 `analysis_loss.py`、`analysis_dataset_quality.py`、`evaluate_keypoint_accuracy.py`、`benchmark_runtime.py` 和 `slurm/run_analysis_suite.slurm`，覆盖用户要求的损失函数、数据质量、预测精度和推理性能分析。
 - 2026-06-11：运行 Wing Loss 分析并生成 `analysis_outputs/loss/` 下的曲线图、梯度图、CSV 和摘要。
 - 2026-06-11：根据用户实际环境和 `mediapipe==0.10.11` 兼容性，将项目推荐 Python 版本从 3.8 调整为 3.10，并新增 `.python-version` 固定版本提示。
+- 2026-06-11：将旧 Python 3.14 `.venv` 非破坏性移动到 `.venv_backup_py314`，使用 Python 3.10.0 重建 `.venv`，安装 `requirements-gesture.txt`，并验证 `mediapipe`、`torch`、`cv2` 可导入。
 
 ## Next TODO
 
@@ -71,7 +72,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - Legacy 后端权重路径在 `configs/gesture_runtime.yaml` 中默认为绝对路径，跨机器需手动修改
 - `PROJECT_STATUS.md` 和 `docs/gesture_pipeline.md` 中仍有部分示例命令使用 `python ...`，与当前必须使用项目 `.venv` 的执行规范不完全一致。
 - 本地仓库未包含大体积真实数据集和权重文件，因此关键点精度、PCK@0.2、后端对比和指令响应延迟需要在服务器或具备数据/权重的环境中实测。
-- 当前本地 `.venv` 为 Python 3.14.3，不满足项目推荐 Python 3.10 环境；完整运行时/评估应在 Python 3.10 的项目虚拟环境或服务器环境中执行。
+- `pip show mediapipe` 和 `importlib.metadata` 显示发行包版本为 `0.10.11`，但 `mediapipe.__version__` 返回 `0.10.10`，属于包内部版本常量与发行元数据不一致；后续记录环境版本时应优先使用包元数据。
 
 ## Architecture Decisions
 
