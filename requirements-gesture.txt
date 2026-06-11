@@ -2,6 +2,8 @@ numpy
 opencv-python
 Pillow
 PyYAML
+matplotlib
 torch
 torchvision
 mediapipe==0.10.11
+tqdm

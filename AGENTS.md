@@ -46,12 +46,14 @@ train_dynamic_gesture.py  # 时序手势模型训练
 
 ## Current Status
 
-已完成项目文档与当前结构复核：项目包含原始 21 关键点检测训练/推理流程，以及新增的 `gesture_runtime` 四层手势识别运行时；当前文档、配置和核心代码结构总体一致。
+已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件：可生成 Wing Loss 曲线、数据集质量图表、关键点 NME/PCK 指标、后端/模型推理性能指标，以及服务器 Slurm 分析任务脚本。
 
 ## Recent Changes
 
 - 2026-06-11：初始化 `AGENTS.md` 和 `CLAUDE.md`，完整梳理四层管道架构和配置体系
 - 2026-06-11：复核 `README.md`、`PROJECT_STATUS.md`、`CLAUDE.md`、`docs/gesture_pipeline.md`、运行时/训练配置和依赖清单，确认当前主要风险仍集中在依赖版本、硬编码路径、缺少动态手势数据集和训练评估脚本。
+- 2026-06-11：新增 `analysis_loss.py`、`analysis_dataset_quality.py`、`evaluate_keypoint_accuracy.py`、`benchmark_runtime.py` 和 `slurm/run_analysis_suite.slurm`，覆盖用户要求的损失函数、数据质量、预测精度和推理性能分析。
+- 2026-06-11：运行 Wing Loss 分析并生成 `analysis_outputs/loss/` 下的曲线图、梯度图、CSV 和摘要。
 
 ## Next TODO
 
@@ -59,6 +61,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 考虑为时序模型补充评估脚本
 - 可考虑将 `train.py` 内嵌参数迁移至配置文件
 - 统一文档中的运行命令为项目本地 `.venv` 调用方式，避免误用系统 Python。
+- 在服务器准备真实数据集、权重和动态手势视频后，通过 Slurm 运行完整分析套件，产出 PCK@0.2、整体识别准确率和 50 次重复测量延迟。
 
 ## Open Issues
 
@@ -66,9 +69,12 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - `mediapipe==0.10.11` 锁定 Python 3.8，限制了依赖升级空间
 - Legacy 后端权重路径在 `configs/gesture_runtime.yaml` 中默认为绝对路径，跨机器需手动修改
 - `PROJECT_STATUS.md` 和 `docs/gesture_pipeline.md` 中仍有部分示例命令使用 `python ...`，与当前必须使用项目 `.venv` 的执行规范不完全一致。
+- 本地仓库未包含大体积真实数据集和权重文件，因此关键点精度、PCK@0.2、后端对比和指令响应延迟需要在服务器或具备数据/权重的环境中实测。
+- 当前本地 `.venv` 为 Python 3.14.3，不满足 `mediapipe==0.10.11` 和项目推荐 Python 3.8 约束；完整运行时/评估应在 Python 3.8 的项目虚拟环境或服务器环境中执行。
 
 ## Architecture Decisions
 
 - 四层管道（Backend/Tracker/Recognizer/Visualization）解耦了检测和识别，便于独立替换后端
 - 静态手势用角度约束规则（无需额外模型），动态手势用 Transformer 时序模型（需训练数据）
 - `auto` 后端策略优先 MediaPipe，保持零权重文件启动的开发体验
+- 分析能力独立放在根目录脚本与 `analysis_tools/` 辅助包中，不侵入现有训练、推理和实时演示主链路。

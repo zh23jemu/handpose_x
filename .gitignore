@@ -140,6 +140,10 @@ dmypy.json
 # 训练产出 checkpoint 目录
 gesture_checkpoints/
 
+# Slurm 调度日志属于服务器运行态；分析图表和 CSV 保留为可交付产物
+analysis_outputs/slurm/*.out
+analysis_outputs/slurm/*.err
+
 # 数据集（体积过大，不入库）
 handpose_datasets/
 handpose_x_pre_text/
