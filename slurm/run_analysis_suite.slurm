@@ -40,15 +40,26 @@ MODEL_NAME="${MODEL_NAME:-ReXNetV1}"
 SOURCE="${SOURCE:-image/image_2021-02-04_20-05-49.jpg}"
 OUTPUT_DIR="${OUTPUT_DIR:-analysis_outputs/server_run}"
 REPEAT="${REPEAT:-50}"
+PYTHON_MODULE="${PYTHON_MODULE:-python/3.11.7}"
 
 cd "$PROJECT_DIR"
 mkdir -p "$OUTPUT_DIR" analysis_outputs/slurm
 
+# 服务器使用 environment modules 管理 Python。默认加载集群上可用的
+# python/3.11.7；如需切换到 python/3.11.2，可提交时覆盖：
+#   sbatch --export=ALL,PYTHON_MODULE=python/3.11.2 slurm/run_analysis_suite.slurm
+if command -v module >/dev/null 2>&1; then
+  module load "$PYTHON_MODULE"
+fi
+
 # 始终使用项目本地虚拟环境，避免服务器系统 Python 版本和依赖污染结果。
 if [ ! -x ".venv/bin/python" ]; then
-  echo "未找到 .venv/bin/python，请先在服务器项目目录创建虚拟环境并安装 requirements-gesture.txt。"
-  exit 1
+  echo "未找到 .venv/bin/python，正在使用当前 Python module 创建项目虚拟环境。"
+  python -m venv .venv
 fi
+
+.venv/bin/python -m pip install -U pip
+.venv/bin/pip install -r requirements-gesture.txt
 
 .venv/bin/python analysis_loss.py \
   --output-dir "$OUTPUT_DIR/loss"

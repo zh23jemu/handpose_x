@@ -8,7 +8,7 @@
 
 ## 技术栈
 
-- Python 3.10（项目推荐版本；mediapipe==0.10.11 支持 Python 3.10）
+- Python 3.11（服务器推荐版本；mediapipe==0.10.11 支持 Python 3.11）
 - PyTorch + torchvision（关键点检测 + 时序 Transformer）
 - MediaPipe（推荐手部检测后端）
 - OpenCV（图像处理 + 视频捕获）
@@ -46,7 +46,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 
 ## Current Status
 
-已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件；本地 `.venv` 已按项目推荐版本重建为 Python 3.10，且 `mediapipe`、`torch`、`cv2` 均已完成导入验证。代码已推送到 public GitHub 仓库 `https://github.com/zh23jemu/handpose_x`。
+已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件；项目推荐运行版本已根据服务器可用模块调整为 Python 3.11，代码已推送到 public GitHub 仓库 `https://github.com/zh23jemu/handpose_x`。
 
 ## Recent Changes
 
@@ -54,8 +54,8 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-11：复核 `README.md`、`PROJECT_STATUS.md`、`CLAUDE.md`、`docs/gesture_pipeline.md`、运行时/训练配置和依赖清单，确认当前主要风险仍集中在依赖版本、硬编码路径、缺少动态手势数据集和训练评估脚本。
 - 2026-06-11：新增 `analysis_loss.py`、`analysis_dataset_quality.py`、`evaluate_keypoint_accuracy.py`、`benchmark_runtime.py` 和 `slurm/run_analysis_suite.slurm`，覆盖用户要求的损失函数、数据质量、预测精度和推理性能分析。
 - 2026-06-11：运行 Wing Loss 分析并生成 `analysis_outputs/loss/` 下的曲线图、梯度图、CSV 和摘要。
-- 2026-06-11：根据用户实际环境和 `mediapipe==0.10.11` 兼容性，将项目推荐 Python 版本从 3.8 调整为 3.10，并新增 `.python-version` 固定版本提示。
-- 2026-06-11：将旧 Python 3.14 `.venv` 非破坏性移动到 `.venv_backup_py314`，使用 Python 3.10.0 重建 `.venv`，安装 `requirements-gesture.txt`，并验证 `mediapipe`、`torch`、`cv2` 可导入。
+- 2026-06-11：根据服务器可用 module（`python/3.11.7` 为默认版本）和 `mediapipe==0.10.11` 兼容性，将项目推荐 Python 版本调整为 3.11，并更新 `.python-version`。
+- 2026-06-11：曾将旧 Python 3.14 `.venv` 非破坏性移动到 `.venv_backup_py314`，并在本地 Python 3.10.0 环境验证过 `mediapipe`、`torch`、`cv2` 可导入；服务器侧后续以 Python 3.11 module 为准重新创建 `.venv`。
 - 2026-06-11：创建 GitHub public 仓库 `zh23jemu/handpose_x` 并推送代码；本地生成 `data_release/Weight.zip` 与 `data_release/handpose_datasets.zip`，准备用 GitHub Release 同步服务器运行资产。
 
 ## Next TODO
@@ -70,7 +70,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 ## Open Issues
 
 - `train.py` 的训练参数（模型类型、数据集路径）硬编码在脚本顶部，不如 `video_demo.py` 的命令行参数风格一致
-- `mediapipe==0.10.11` 已锁定版本，当前推荐 Python 3.10；升级 Python 或 MediaPipe 前需重新验证兼容性
+- `mediapipe==0.10.11` 已锁定版本，当前推荐 Python 3.11；升级 Python 或 MediaPipe 前需重新验证兼容性
 - Legacy 后端权重路径在 `configs/gesture_runtime.yaml` 中默认为绝对路径，跨机器需手动修改
 - `PROJECT_STATUS.md` 和 `docs/gesture_pipeline.md` 中仍有部分示例命令使用 `python ...`，与当前必须使用项目 `.venv` 的执行规范不完全一致。
 - 本地仓库未包含大体积真实数据集和权重文件，因此关键点精度、PCK@0.2、后端对比和指令响应延迟需要在服务器或具备数据/权重的环境中实测。

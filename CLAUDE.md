@@ -11,11 +11,11 @@ HandPose X 是一个手部姿态检测与动态手势识别系统。核心功能
 ## 环境搭建
 
 ```bash
-# 安装依赖（推荐 Python 3.10；mediapipe==0.10.11 支持 Python 3.10）
+# 安装依赖（推荐 Python 3.11；mediapipe==0.10.11 支持 Python 3.11）
 .venv/bin/pip install -r requirements-gesture.txt
 ```
 
-依赖说明：`mediapipe==0.10.11` 版本锁定，不可随意升级；当前项目推荐 Python 3.10，PyTorch 需与 CUDA 版本匹配。
+依赖说明：`mediapipe==0.10.11` 版本锁定，不可随意升级；当前项目推荐 Python 3.11，PyTorch 需与 CUDA 版本匹配。
 
 ## 常用命令
 
