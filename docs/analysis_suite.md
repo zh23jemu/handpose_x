@@ -58,6 +58,7 @@
 ```bash
 .venv/bin/python benchmark_runtime.py \
   --source image/image_2021-02-04_20-05-49.jpg \
+  --backends mediapipe \
   --legacy-model-path Weight/resnet_101-size-256-best_model2.pth \
   --repeat 50 \
   --output-dir analysis_outputs/runtime_benchmark
@@ -72,6 +73,16 @@
 
 注意：如果输入源是静态图片且没有触发手势事件，`command_response_mean_ms` 会为 0。要得到“指令响应延迟”，应使用包含真实动态手势的视频，并保持 `--repeat 50`。
 
+默认只测试 `mediapipe` 后端，因为当前 Release 内的默认权重是 `resnet_101`，不能直接加载到 Legacy 后端的 `ReXNetV1` 结构中。
+如果需要 Legacy 后端测速，必须提供 ReXNet 权重并覆盖：
+
+```bash
+.venv/bin/python benchmark_runtime.py \
+  --source path/to/video.mp4 \
+  --backends legacy \
+  --legacy-model-path path/to/rexnet_weights.pth
+```
+
 ## Slurm 运行
 
 服务器上可使用：
@@ -84,7 +95,7 @@ sbatch --export=ALL,DATASET_DIR=/path/to/handpose_datasets/,MODEL_PATH=/path/to/
 如使用 ReXNet 权重，可提交时覆盖：
 
 ```bash
-sbatch --export=ALL,MODEL_NAME=ReXNetV1,MODEL_PATH=/path/to/rexnet.pth slurm/run_analysis_suite.slurm
+sbatch --export=ALL,MODEL_NAME=ReXNetV1,MODEL_PATH=/path/to/rexnet.pth,BACKENDS=legacy slurm/run_analysis_suite.slurm
 ```
 
 服务器 GPU 环境的 NVIDIA 驱动是 CUDA 12.x 兼容级别时，不要安装 CUDA 13.0 的 PyTorch wheel。

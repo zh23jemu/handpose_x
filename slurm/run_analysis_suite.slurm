@@ -41,6 +41,7 @@ SOURCE="${SOURCE:-image/image_2021-02-04_20-05-49.jpg}"
 OUTPUT_DIR="${OUTPUT_DIR:-analysis_outputs/server_run}"
 REPEAT="${REPEAT:-50}"
 PYTHON_MODULE="${PYTHON_MODULE:-python/3.11.7}"
+BACKENDS="${BACKENDS:-mediapipe}"
 
 cd "$PROJECT_DIR"
 mkdir -p "$OUTPUT_DIR" analysis_outputs/slurm
@@ -84,6 +85,7 @@ fi
 
 .venv/bin/python benchmark_runtime.py \
   --source "$SOURCE" \
+  --backends "$BACKENDS" \
   --legacy-model-path "$MODEL_PATH" \
   --device auto \
   --repeat "$REPEAT" \
