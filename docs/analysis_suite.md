@@ -37,7 +37,7 @@
 .venv/bin/python evaluate_keypoint_accuracy.py \
   --dataset-dir handpose_datasets/ \
   --model-path Weight/resnet_101-size-256-best_model2.pth \
-  --model ReXNetV1 \
+  --model resnet_101 \
   --output-dir analysis_outputs/keypoint_accuracy
 ```
 
@@ -78,6 +78,13 @@
 
 ```bash
 sbatch --export=ALL,DATASET_DIR=/path/to/handpose_datasets/,MODEL_PATH=/path/to/best.pth,SOURCE=/path/to/gesture.mp4 slurm/run_analysis_suite.slurm
+```
+
+默认 `MODEL_NAME=resnet_101`，与 `Weight/resnet_101-size-256-best_model2.pth` 匹配。
+如使用 ReXNet 权重，可提交时覆盖：
+
+```bash
+sbatch --export=ALL,MODEL_NAME=ReXNetV1,MODEL_PATH=/path/to/rexnet.pth slurm/run_analysis_suite.slurm
 ```
 
 服务器 GPU 环境的 NVIDIA 驱动是 CUDA 12.x 兼容级别时，不要安装 CUDA 13.0 的 PyTorch wheel。

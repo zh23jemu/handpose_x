@@ -43,15 +43,18 @@ def build_keypoint_model(model_name: str, num_classes: int = 42, img_size: int =
 def load_checkpoint(model: torch.nn.Module, checkpoint_path: str, device: torch.device) -> None:
     """加载关键点模型权重，兼容纯 state_dict 与常见 checkpoint 字典。
 
-    训练脚本当前保存的是 `model.state_dict()`；部分外部训练流程可能会保存
-    `{"model": state_dict}` 或 `{"state_dict": state_dict}`。这里做轻量兼容，避免
-    分析脚本因为 checkpoint 包装格式不同而中断。
+    训练脚本通常保存 `model.state_dict()`；部分外部训练流程可能会保存
+    `{"model": state_dict}`、`{"state_dict": state_dict}` 或
+    `{"model_state_dict": state_dict}`。这里做轻量兼容，避免分析脚本因为
+    checkpoint 包装格式不同而中断。
     """
     payload = torch.load(checkpoint_path, map_location=device)
     if isinstance(payload, dict) and "model" in payload:
         payload = payload["model"]
     elif isinstance(payload, dict) and "state_dict" in payload:
         payload = payload["state_dict"]
+    elif isinstance(payload, dict) and "model_state_dict" in payload:
+        payload = payload["model_state_dict"]
     model.load_state_dict(payload)
 
 

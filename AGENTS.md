@@ -58,6 +58,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-11：曾将旧 Python 3.14 `.venv` 非破坏性移动到 `.venv_backup_py314`，并在本地 Python 3.10.0 环境验证过 `mediapipe`、`torch`、`cv2` 可导入；服务器侧后续以 Python 3.11 module 为准重新创建 `.venv`。
 - 2026-06-11：创建 GitHub public 仓库 `zh23jemu/handpose_x` 并推送代码；本地生成 `data_release/Weight.zip` 与 `data_release/handpose_datasets.zip`，准备用 GitHub Release 同步服务器运行资产。
 - 2026-06-11：服务器验证发现默认依赖安装会得到 `torch 2.12.0+cu130`，而集群驱动为 CUDA 12.8 兼容级别导致 `torch.cuda.is_available()` 为 `False`；新增 `requirements-torch-cu126.txt` 并让 Slurm 脚本优先安装 CUDA 12.6 wheel。
+- 2026-06-12：服务器 Slurm 快速验证中，损失函数分析和数据集质量分析已输出；关键点精度评估失败原因是默认 `MODEL_NAME=ReXNetV1` 与 `resnet_101` 权重不匹配，且 checkpoint 使用 `model_state_dict` 包装。已修复 checkpoint 兼容并将 Slurm 默认模型改为 `resnet_101`。
 
 ## Next TODO
 
@@ -77,6 +78,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 本地仓库未包含大体积真实数据集和权重文件，因此关键点精度、PCK@0.2、后端对比和指令响应延迟需要在服务器或具备数据/权重的环境中实测。
 - `pip show mediapipe` 和 `importlib.metadata` 显示发行包版本为 `0.10.11`，但 `mediapipe.__version__` 返回 `0.10.10`，属于包内部版本常量与发行元数据不一致；后续记录环境版本时应优先使用包元数据。
 - 服务器 GPU 环境不要使用 `torch 2.12.0+cu130`；当前应卸载后按 `requirements-torch-cu126.txt` 安装 CUDA 12.6 兼容 PyTorch。
+- `Weight/resnet_101-size-256-best_model2.pth` 必须搭配 `MODEL_NAME=resnet_101` 评估；如果换用 ReXNet 权重，再覆盖为 `MODEL_NAME=ReXNetV1`。
 
 ## Architecture Decisions
 
