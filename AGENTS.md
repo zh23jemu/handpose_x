@@ -60,6 +60,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-11：服务器验证发现默认依赖安装会得到 `torch 2.12.0+cu130`，而集群驱动为 CUDA 12.8 兼容级别导致 `torch.cuda.is_available()` 为 `False`；新增 `requirements-torch-cu126.txt` 并让 Slurm 脚本优先安装 CUDA 12.6 wheel。
 - 2026-06-12：服务器 Slurm 快速验证中，损失函数分析和数据集质量分析已输出；关键点精度评估失败原因是默认 `MODEL_NAME=ReXNetV1` 与 `resnet_101` 权重不匹配，且 checkpoint 使用 `model_state_dict` 包装。已修复 checkpoint 兼容并将 Slurm 默认模型改为 `resnet_101`。
 - 2026-06-12：服务器短任务已生成关键点精度和运行时性能输出；其中 `legacy` 后端因使用 ResNet 权重加载 ReXNet 结构被跳过。Slurm 默认后端改为仅测 `mediapipe`，Legacy 测速需显式提供 ReXNet 权重并设置 `BACKENDS=legacy`。
+- 2026-06-12：完整数据集 `handpose_datasets_v1` 已在服务器跑通，样本数 49062，PCK@0.2 为 0.97049，overall NME 为 0.05595；动态手势视频任务因 `SOURCE=/path/to/gesture_video.mp4` 为占位路径失败，已为 Slurm 脚本增加 DATASET/MODEL/SOURCE 输入路径预检查，并将默认 CPU 数调为 2。
 
 ## Next TODO
 
@@ -81,6 +82,7 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 服务器 GPU 环境不要使用 `torch 2.12.0+cu130`；当前应卸载后按 `requirements-torch-cu126.txt` 安装 CUDA 12.6 兼容 PyTorch。
 - `Weight/resnet_101-size-256-best_model2.pth` 必须搭配 `MODEL_NAME=resnet_101` 评估；如果换用 ReXNet 权重，再覆盖为 `MODEL_NAME=ReXNetV1`。
 - 默认 Release 权重不适合 Legacy 后端；没有 ReXNet 权重时，运行时性能报告应以 MediaPipe 后端和模型规格前向延迟为主。
+- 动态手势响应延迟不能使用占位路径或静态图片得出正式结论，必须上传真实动态手势视频并将 `SOURCE` 指向该文件。
 
 ## Architecture Decisions
 

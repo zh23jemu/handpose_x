@@ -23,7 +23,7 @@
 #SBATCH --qos=normal
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=2
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:1
 #SBATCH --time=04:00:00
@@ -45,6 +45,25 @@ BACKENDS="${BACKENDS:-mediapipe}"
 
 cd "$PROJECT_DIR"
 mkdir -p "$OUTPUT_DIR" analysis_outputs/slurm
+
+# 在开始安装依赖和运行耗时分析前，先校验关键输入路径。
+# 这样当 SOURCE 仍是 /path/to/gesture.mp4 这类占位路径时，任务会立即失败并给出明确原因，
+# 不会先跑完损失函数/数据集分析后才在运行时测速阶段中断。
+if [ ! -d "$DATASET_DIR" ]; then
+  echo "错误：DATASET_DIR 不存在或不是目录：$DATASET_DIR" >&2
+  exit 2
+fi
+
+if [ ! -f "$MODEL_PATH" ]; then
+  echo "错误：MODEL_PATH 不存在或不是文件：$MODEL_PATH" >&2
+  exit 2
+fi
+
+if [ ! -f "$SOURCE" ]; then
+  echo "错误：SOURCE 不存在或不是文件：$SOURCE" >&2
+  echo "请将 SOURCE 设置为真实图片或动态手势视频路径；动态手势响应延迟必须使用视频输入。" >&2
+  exit 2
+fi
 
 # 服务器使用 environment modules 管理 Python。默认加载集群上可用的
 # python/3.11.7；如需切换到 python/3.11.2，可提交时覆盖：

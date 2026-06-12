@@ -91,6 +91,8 @@
 sbatch --export=ALL,DATASET_DIR=/path/to/handpose_datasets/,MODEL_PATH=/path/to/best.pth,SOURCE=/path/to/gesture.mp4 slurm/run_analysis_suite.slurm
 ```
 
+`SOURCE` 必须是真实存在的图片或视频文件。若要统计真实动态手势的指令响应延迟，请先将动态手势视频上传到服务器，例如 `videos/gesture_video.mp4`，再把 `SOURCE` 指向该文件；不要直接使用 `/path/to/gesture.mp4` 这类占位路径。
+
 默认 `MODEL_NAME=resnet_101`，与 `Weight/resnet_101-size-256-best_model2.pth` 匹配。
 如使用 ReXNet 权重，可提交时覆盖：
 
@@ -114,7 +116,7 @@ sbatch --export=ALL,MODEL_NAME=ReXNetV1,MODEL_PATH=/path/to/rexnet.pth,BACKENDS=
 .venv/bin/python -c "import torch; print(torch.__version__); print(torch.cuda.is_available())"
 ```
 
-GPU 任务默认使用 `gpu` 分区、`gpo-ifv7xx` 账号和 `normal` QOS。预计 1 小时内完成的短评测可覆盖：
+GPU 任务默认使用 `gpu` 分区、`gpo-ifv7xx` 账号和 `normal` QOS。脚本默认 `--cpus-per-task=2`，以减少触发 `QOSMaxCpuPerUserLimit` 的概率。预计 1 小时内完成的短评测可覆盖：
 
 ```bash
 sbatch --qos=shortjobs --time=01:00:00 slurm/run_analysis_suite.slurm
