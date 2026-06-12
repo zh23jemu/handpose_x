@@ -1,0 +1,9 @@
+{
+  "samples": 49062,
+  "overall_nme": 0.05594915524125099,
+  "pck_at_0_2": 0.9704921469627352,
+  "overall_accuracy": 0.9704921469627352,
+  "device": "cuda",
+  "model": "resnet_101",
+  "model_path": "/mnt/users/xj62kv/handpose_x/Weight/resnet_101-size-256-best_model2.pth"
+}

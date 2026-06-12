@@ -1,0 +1,2 @@
+backend,status,single_frame_mean_ms,gesture_recognition_mean_ms,command_response_mean_ms,end_to_end_mean_ms,events,reason
+mediapipe,ok,9.261719253845513,0.2798012178391218,9.481098968535662,9.541520471684635,1,

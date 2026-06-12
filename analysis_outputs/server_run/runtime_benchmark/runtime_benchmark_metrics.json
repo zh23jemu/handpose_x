@@ -1,0 +1,84 @@
+{
+  "backend_results": [
+    {
+      "backend": "mediapipe",
+      "status": "ok",
+      "frames": 50,
+      "events": 1,
+      "single_frame_inference": {
+        "mean_ms": 9.261719253845513,
+        "p50_ms": 9.230813942849636,
+        "p90_ms": 9.32759908027947,
+        "p95_ms": 9.352977154776454
+      },
+      "gesture_recognition": {
+        "mean_ms": 0.2798012178391218,
+        "p50_ms": 0.27868710458278656,
+        "p90_ms": 0.2932990901172161,
+        "p95_ms": 0.3000488504767418
+      },
+      "command_response": {
+        "mean_ms": 9.481098968535662,
+        "p50_ms": 9.481098968535662,
+        "p90_ms": 9.481098968535662,
+        "p95_ms": 9.481098968535662
+      },
+      "end_to_end": {
+        "mean_ms": 9.541520471684635,
+        "p50_ms": 9.500687010586262,
+        "p90_ms": 9.59892407990992,
+        "p95_ms": 9.638854069635272
+      }
+    }
+  ],
+  "model_results": [
+    {
+      "model": "ReXNetV1",
+      "device": "cuda",
+      "params": 3569675,
+      "estimated_size_mb": 13.617,
+      "single_frame_inference": {
+        "mean_ms": 4.721738160587847,
+        "p50_ms": 4.716342082247138,
+        "p90_ms": 4.747049184516072,
+        "p95_ms": 4.774289904162288
+      }
+    },
+    {
+      "model": "mobilenetv2",
+      "device": "cuda",
+      "params": 2295082,
+      "estimated_size_mb": 8.755,
+      "single_frame_inference": {
+        "mean_ms": 2.4306334648281336,
+        "p50_ms": 2.394189825281501,
+        "p90_ms": 2.4110148660838604,
+        "p95_ms": 2.42041889578104
+      }
+    },
+    {
+      "model": "resnet_50",
+      "device": "cuda",
+      "params": 23594090,
+      "estimated_size_mb": 90.004,
+      "single_frame_inference": {
+        "mean_ms": 2.631684672087431,
+        "p50_ms": 2.6320060715079308,
+        "p90_ms": 2.6432431768625975,
+        "p95_ms": 2.652276074513793
+      }
+    },
+    {
+      "model": "resnet_101",
+      "device": "cuda",
+      "params": 42586218,
+      "estimated_size_mb": 162.454,
+      "single_frame_inference": {
+        "mean_ms": 5.21349941380322,
+        "p50_ms": 5.190070951357484,
+        "p90_ms": 5.2308018784970045,
+        "p95_ms": 5.250651855021715
+      }
+    }
+  ]
+}
