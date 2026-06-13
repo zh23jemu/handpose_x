@@ -47,6 +47,8 @@ train_dynamic_gesture.py  # 时序手势模型训练
 ## Current Status
 
 已完成项目文档与当前结构复核，并新增面向报告/论文的分析套件；项目推荐运行版本已根据服务器可用模块调整为 Python 3.11，代码已推送到 public GitHub 仓库 `https://github.com/zh23jemu/handpose_x`。
+- 2026-06-12：本地已 `git pull origin master` 拉回服务器分析结果提交 `ba0909c`，`analysis_outputs/server_run/` 已同步到当前工作区，仓库状态干净。
+- 2026-06-13：用户已提供动态手势视频到 `video/`；本地完成 `video1.mp4` 与 `video2.mp4` 的 MediaPipe 动态视频运行时补测，其中 `video1.mp4` 触发 4 个事件，可作为动态响应延迟补充结果。
 
 ## Recent Changes
 
@@ -61,6 +63,8 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 2026-06-12：服务器 Slurm 快速验证中，损失函数分析和数据集质量分析已输出；关键点精度评估失败原因是默认 `MODEL_NAME=ReXNetV1` 与 `resnet_101` 权重不匹配，且 checkpoint 使用 `model_state_dict` 包装。已修复 checkpoint 兼容并将 Slurm 默认模型改为 `resnet_101`。
 - 2026-06-12：服务器短任务已生成关键点精度和运行时性能输出；其中 `legacy` 后端因使用 ResNet 权重加载 ReXNet 结构被跳过。Slurm 默认后端改为仅测 `mediapipe`，Legacy 测速需显式提供 ReXNet 权重并设置 `BACKENDS=legacy`。
 - 2026-06-12：完整数据集 `handpose_datasets_v1` 已在服务器跑通，样本数 49062，PCK@0.2 为 0.97049，overall NME 为 0.05595；动态手势视频任务因 `SOURCE=/path/to/gesture_video.mp4` 为占位路径失败，已为 Slurm 脚本增加 DATASET/MODEL/SOURCE 输入路径预检查，并将默认 CPU 数调为 2。
+- 2026-06-12：服务器已成功推送完整分析结果，当前本地已同步损失、数据集质量、关键点精度和运行时性能四类正式输出。
+- 2026-06-13：新增本地动态视频补测输出 `analysis_outputs/video1_runtime_benchmark/` 与 `analysis_outputs/video2_runtime_benchmark/`；`video1.mp4` 的指令响应平均延迟为 45.47 ms，端到端平均延迟为 41.87 ms，`video2.mp4` 未触发事件。
 
 ## Next TODO
 
@@ -70,6 +74,9 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - 统一文档中的运行命令为项目本地 `.venv` 调用方式，避免误用系统 Python。
 - 在服务器准备真实数据集、权重和动态手势视频后，通过 Slurm 运行完整分析套件，产出 PCK@0.2、整体识别准确率和 50 次重复测量延迟。
 - 服务器拉取代码后，从 GitHub Release 下载 `Weight.zip` 和 `handpose_datasets.zip`，解压到项目根目录再执行分析/训练任务。
+- 如需形成最终交付材料，补一份汇总文档或报告，把 `analysis_outputs/server_run/` 中的核心图表、CSV 和 JSON 结果串起来。
+- 若要补齐动态手势正式指标，需要上传真实动态手势视频后重跑 `SOURCE` 路径对应的延迟分析。
+- 可将 `video1.mp4` 的动态补测指标纳入最终报告，同时说明该结果来自本地 CPU 环境，服务器 GPU 指标仍以 `analysis_outputs/server_run/` 为准。
 
 ## Open Issues
 
@@ -83,6 +90,8 @@ train_dynamic_gesture.py  # 时序手势模型训练
 - `Weight/resnet_101-size-256-best_model2.pth` 必须搭配 `MODEL_NAME=resnet_101` 评估；如果换用 ReXNet 权重，再覆盖为 `MODEL_NAME=ReXNetV1`。
 - 默认 Release 权重不适合 Legacy 后端；没有 ReXNet 权重时，运行时性能报告应以 MediaPipe 后端和模型规格前向延迟为主。
 - 动态手势响应延迟不能使用占位路径或静态图片得出正式结论，必须上传真实动态手势视频并将 `SOURCE` 指向该文件。
+- 当前正式结果已齐全，但动态手势/指令响应延迟的严谨结论仍依赖真实视频输入；若继续交付，需明确说明这是待补测项。
+- 当前动态视频补测在本地 CPU 环境完成，MediaPipe 链路可用，但与服务器 CUDA 环境下的模型规格测速不可直接横向比较。
 
 ## Architecture Decisions
 
